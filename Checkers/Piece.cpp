@@ -200,14 +200,14 @@ int checkBottomLeft(Pos pos, char board[][8]) {
 }
 int findEatingMoves(Piece* piece, char board[][8]) {
 	Pos enemy;
-	int moves_coutner = 0;
+	int moves_counter = 0;
 	if (checkTopRight(piece->pos, board) == EATING_MOVE) {
 		enemy.row = piece->pos.row - 1;
 		enemy.col = piece->pos.col + 1;
 		if (checkTopRight(enemy, board) == 1) {
 			piece->moves[TOP_RIGHT].row = enemy.row - 1;
 			piece->moves[TOP_RIGHT].col = enemy.col + 1;
-			moves_coutner++;
+			moves_counter++;
 		}
 		else {
 			piece->moves[TOP_RIGHT].row = -1;
@@ -224,7 +224,7 @@ int findEatingMoves(Piece* piece, char board[][8]) {
 		if (checkTopLeft(enemy, board) == 1) {
 			piece->moves[TOP_LEFT].row = enemy.row - 1;
 			piece->moves[TOP_LEFT].col = enemy.col - 1;
-			moves_coutner++;
+			moves_counter++;
 		}
 		else {
 			piece->moves[TOP_LEFT].row = -1;
@@ -242,7 +242,7 @@ int findEatingMoves(Piece* piece, char board[][8]) {
 		if (checkBottomRight(enemy, board) == 1) {
 			piece->moves[BOTTOM_RIGHT].row = enemy.row + 1;
 			piece->moves[BOTTOM_RIGHT].col = enemy.col + 1;
-			moves_coutner++;
+			moves_counter++;
 		}
 		else {
 			piece->moves[BOTTOM_RIGHT].row = -1;
@@ -259,7 +259,7 @@ int findEatingMoves(Piece* piece, char board[][8]) {
 		if (checkBottomLeft(enemy, board) == 1) {
 			piece->moves[BOTTOM_LEFT].row = enemy.row + 1;
 			piece->moves[BOTTOM_LEFT].col = enemy.col - 1;
-			moves_coutner++;
+			moves_counter++;
 		}
 		else {
 			piece->moves[BOTTOM_LEFT].row = -1;
@@ -270,14 +270,16 @@ int findEatingMoves(Piece* piece, char board[][8]) {
 		piece->moves[BOTTOM_LEFT].row = -1;
 		piece->moves[BOTTOM_LEFT].col = -1;
 	}
-	return moves_coutner;
+	if (moves_counter != 0)
+		piece->can_eat = true;
+
+	return moves_counter;
 }
 
 void updateLegalMovesWhite(Piece* piece,char board[][8])
 {
 	if (findEatingMoves(piece, board) != 0)
 		return;
-	Pos enemy;
 	switch (checkTopRight(piece->pos, board))
 	{
 	case BLOCKED_MOVE: {

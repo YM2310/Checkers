@@ -1,6 +1,36 @@
 #include "Header.h"
+#include <algorithm>
 
 
+vector<Pos> Player::generateMoveables(Board* board)
+{	
+	vector<Pos> moveables;
+	int can_eat_counter = 0;
+	for (int i = 0; i < 12; i++) {
+		this->pieces[i]->updateLegalMoves(board->board);
+		if (this->pieces[i]->can_eat == true) {
+			can_eat_counter++;
+			for (int j = 0; j < 4; j++) {
+				if (this->pieces[i]->moves[j].col != -1 && this->pieces[i]->moves[j].row != -1) {
+					moveables.push_back(this->pieces[i]->pos);
+					break;
+				}
+			}
+		}
+	}
+	if(can_eat_counter==0)
+		for (int i = 0; i < 12; i++) {
+			this->pieces[i]->updateLegalMoves(board->board);
+			for (int j = 0; j < 4; j++) {
+				if (this->pieces[i]->moves[j].col != -1 && this->pieces[i]->moves[j].row != -1) {
+					moveables.push_back(this->pieces[i]->pos);
+					break;
+				}
+			}
+		}
+	sort(moveables.begin(), moveables.end(), comparePos);
+	return moveables;
+}
 
 void Player::initPlayer() {
 	if (this->color == 'w') {

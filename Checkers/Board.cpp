@@ -33,32 +33,36 @@ int isIn(Pos pos, Pos* arr) {
 }
 
 Pos Board::select(vector<Pos> options) {
-	static Pos curser = options[0];
+	vector<Pos>::iterator i = options.begin();
+	Pos curser = options[0];
 
 	char input = 0;
 	while (input != '\r'&&input!='e') {
 		flash(curser);
 		switch (input = _getch())
 		{
-		case KEY_UP: {
-			
-			break;
-		}
 		case KEY_LEFT: {
-			if(curser.col!=0)
-				curser.col--;
-			break;
+			if (i != options.begin()) {
+				i--;
+				curser=*i;
+			}
+			else {
+				i = options.end()-1;
+				curser = *i;
+			}
 		}
-		case KEY_DOWN: {
-			if(curser.row!=7)
-				curser.row++;
-			break;
-		}
+					 break;
 		case KEY_RIGHT: {
-			if(curser.col!=7)
-				curser.col++;
-			break;
+			if (i != options.end()-1) {
+				i++;
+				curser = *i;
+			}
+			else {
+				i = options.begin();
+				curser = *i;
+			}
 		}
+					  break;
 		default:
 			break;
 		}

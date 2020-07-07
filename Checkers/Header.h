@@ -13,6 +13,8 @@ typedef struct position {
 	int col;
 }Pos;
 class Board;
+bool comparePos(Pos pos1, Pos pos2);
+
 
 class Piece {
 
@@ -21,23 +23,23 @@ public:
 	char color;
 	char status;
 	Pos* moves = new Pos[16];
+	bool can_eat;
 	Piece(int row, int col, char c) {
 		pos.row = row;
 		pos.col = col;
+		can_eat = false;
 		color = c;
 		status = 's';
 		for (int i = 0; i < 16; i++)
 		{
 			moves[i].row = -1;
 			moves[i].col = -1;
-
 		}
 	}
 	int updateLegalMoves(char board[][8]);
 	int updateLegalMovesInRow(char board[][8]);
 	int isLegal(Pos move);
 	int checkIfKing();
-	//void move();
 
 };
 
@@ -55,7 +57,7 @@ public:
 		score = 0;
 		this->initPlayer();
 	}
-
+	vector<Pos> generateMoveables(Board* board);
 	void initPlayer();
 	Piece* isPiece(Pos pos);
 };
