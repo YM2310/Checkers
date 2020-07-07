@@ -24,7 +24,10 @@ int main() {
 		ate=turn(&white,&black, &board);
 		if (ate.row == -2)
 			break;
-	
+		if (ate.row == -3) {
+			black.score = 12;
+			break;
+		}
 		system("CLS");
 		board.printBoard();
 		displayScore(white.score, black.score);
@@ -32,7 +35,10 @@ int main() {
 		ate=turn(&black,&white, &board);
 		if (ate.row == -2)
 			break;
-	
+		if (ate.row == -3) {
+			white.score = 12;
+			break;
+		}
 		system("CLS");
 		board.printBoard();
 
@@ -66,6 +72,10 @@ Pos turn(Player* player,Player* not_player, Board* board) {
 	ate.row = -1;
 	do {
 		moveables = player->generateMoveables(board);
+		if (moveables.size() == 0) {
+			ate.row = -3;
+			return ate;
+		}
 		to_move = board->select(moveables);
 		if (to_move.row == -2) {
 			return to_move;

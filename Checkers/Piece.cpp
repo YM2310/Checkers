@@ -278,8 +278,11 @@ int findEatingMoves(Piece* piece, char board[][8]) {
 
 void updateLegalMovesWhite(Piece* piece,char board[][8])
 {
-	if (findEatingMoves(piece, board) != 0)
+	if (findEatingMoves(piece, board) != 0) {
+		piece->can_eat = true;
 		return;
+	}
+	piece->can_eat = false;
 	switch (checkTopRight(piece->pos, board))
 	{
 	case BLOCKED_MOVE: {
@@ -354,9 +357,11 @@ void updateLegalMovesWhite(Piece* piece,char board[][8])
 void updateLegalMovesBlack(Piece* piece, char board[][8])
 {
 	Pos enemy;
-	if (findEatingMoves(piece, board) != 0)
+	if (findEatingMoves(piece, board) != 0) {
+		piece->can_eat = true;
 		return;
-
+	}
+	piece->can_eat = false;
 	switch (checkTopRight(piece->pos, board))
 	{
 	case BLOCKED_MOVE: {

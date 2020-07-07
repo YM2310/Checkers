@@ -35,7 +35,6 @@ int isIn(Pos pos, Pos* arr) {
 Pos Board::select(vector<Pos> options) {
 	vector<Pos>::iterator i = options.begin();
 	Pos curser = options[0];
-
 	char input = 0;
 	while (input != '\r'&&input!='e') {
 		flash(curser);
@@ -66,6 +65,7 @@ Pos Board::select(vector<Pos> options) {
 		default:
 			break;
 		}
+
 	}
 	if (input == 'e') {
 		curser.row = -2;
